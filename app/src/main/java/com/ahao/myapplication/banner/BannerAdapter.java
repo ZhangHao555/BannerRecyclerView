@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.ahao.myapplication.R;
@@ -44,12 +45,19 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BannerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final BannerViewHolder holder, final int position) {
         holder.textView.setText(data.get(position));
         holder.textView.setBackgroundColor(Color.rgb(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
         ViewGroup.LayoutParams layoutParams = holder.textView.getLayoutParams();
         layoutParams.width = (int) (displayMetrics.widthPixels * itemWidth);
         layoutParams.height = (int) (layoutParams.width * ratio);
+
+        holder.textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"onclick :" + holder.getAdapterPosition(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
