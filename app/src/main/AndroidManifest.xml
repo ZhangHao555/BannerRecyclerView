@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
+        </activity>
+
+        <activity android:name=".banner.BannerRecyclerActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
