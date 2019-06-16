@@ -40,8 +40,14 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
     @Override
     public BannerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.view_banner_item, parent,false);
-        BannerViewHolder bannerViewHolder = new BannerViewHolder(view);
-        return bannerViewHolder;
+        final BannerViewHolder holder = new BannerViewHolder(view);
+        holder.textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"onclick :" + holder.getAdapterPosition(),Toast.LENGTH_SHORT).show();
+            }
+        });
+        return holder;
     }
 
     @Override
@@ -52,12 +58,7 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
         layoutParams.width = (int) (displayMetrics.widthPixels * itemWidth);
         layoutParams.height = (int) (layoutParams.width * ratio);
 
-        holder.textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context,"onclick :" + holder.getAdapterPosition(),Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     @Override
