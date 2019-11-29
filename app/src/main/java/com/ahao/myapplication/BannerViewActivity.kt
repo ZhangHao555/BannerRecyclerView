@@ -12,10 +12,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.ahao.bannerview.BannerIndicator
-import com.ahao.bannerview.BannerLayoutManager
-import com.ahao.bannerview.ScaleBannerLayoutManager
-import com.ahao.bannerview.BannerSetting
+import com.ahao.bannerview.*
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_banner_view.*
 

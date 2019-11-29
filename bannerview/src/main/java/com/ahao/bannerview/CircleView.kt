@@ -1,4 +1,4 @@
-package com.ahao.myapplication
+package com.ahao.bannerview
 
 import android.content.Context
 import android.graphics.Canvas
