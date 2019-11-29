@@ -238,15 +238,7 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
         } else {
             offset = (targetPosition - currentPosition) * itemWidth;
         }
-
-        try {
-            Field field = RecyclerView.class.getDeclaredField("mViewFlinger");
-            field.setAccessible(true);
-            Object obj = field.get(recyclerView);
-            Method method = obj.getClass().getDeclaredMethod("smoothScrollBy", Integer.TYPE, Integer.TYPE, Integer.TYPE);
-            method.invoke(obj, offset, 0, smoothScrollTime);
-        } catch (Exception ignore) {
-        }
+        recyclerView.smoothScrollBy(offset,0,null,smoothScrollTime);
     }
 
     private int getTotalHeight() {

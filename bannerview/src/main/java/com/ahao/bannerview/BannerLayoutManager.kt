@@ -210,14 +210,7 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
             (targetPosition - currentPosition) * itemWidth
         }
 
-        try {
-            val field = RecyclerView::class.java.getDeclaredField("mViewFlinger")
-            field.isAccessible = true
-            val obj = field.get(recyclerView)
-            val method = obj.javaClass.getDeclaredMethod("smoothScrollBy", Integer.TYPE, Integer.TYPE, Integer.TYPE)
-            method.invoke(obj, offset, 0, smoothScrollTime)
-        } catch (ignore: Exception) {
-        }
+        recyclerView.smoothScrollBy(offset, 0, null, smoothScrollTime)
 
     }
 

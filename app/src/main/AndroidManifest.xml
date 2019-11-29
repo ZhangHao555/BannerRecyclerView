@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ahao.myapplication">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,10 +19,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".banner.BannerRecyclerActivity">
+        <activity android:name=".banner.BannerRecyclerActivity"/>
 
 
-        </activity>
+        <activity android:name=".BannerViewActivity"/>
     </application>
 
 </manifest>
