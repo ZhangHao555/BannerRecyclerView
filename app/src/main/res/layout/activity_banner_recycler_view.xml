@@ -6,13 +6,13 @@
     android:orientation="vertical">
 
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="50dp"
         android:id="@+id/recycler_view1"
         android:layout_width="match_parent"
         android:layout_height="200dp">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/scrollTo1"
@@ -21,13 +21,13 @@
         android:text="scrollTo"
         />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="50dp"
         android:id="@+id/recycler_view2"
         android:layout_width="match_parent"
         android:layout_height="200dp">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/scrollTo2"
