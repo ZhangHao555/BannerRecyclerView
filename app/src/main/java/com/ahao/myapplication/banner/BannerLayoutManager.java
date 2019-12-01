@@ -97,11 +97,11 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
         int realScroll = dx;
         // 向左
         if (dx > 0) {
-            realScroll = scrollToLeft(dx, recycler, realScroll);
+            realScroll = scrollToLeft(dx, recycler);
         }
         // 向右
         if (dx < 0) {
-            realScroll = scrollToRight(dx, recycler, realScroll);
+            realScroll = scrollToRight(dx, recycler);
         }
         scaleItem();
 
@@ -126,7 +126,8 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
         }
     }
 
-    private int scrollToRight(int dx, RecyclerView.Recycler recycler, int realScroll) {
+    private int scrollToRight(int dx, RecyclerView.Recycler recycler) {
+        int realScroll = 0;
         while (true) {
             View leftChild = getChildAt(0);
             int left = getDecoratedLeft(leftChild);
@@ -167,7 +168,8 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
         return realScroll;
     }
 
-    private int scrollToLeft(int dx, RecyclerView.Recycler recycler, int realScroll) {
+    private int scrollToLeft(int dx, RecyclerView.Recycler recycler) {
+        int realScroll = 0;
         while (true) {
             // 将需要添加的view添加到RecyclerView中
             View rightView = getChildAt(getChildCount() - 1);

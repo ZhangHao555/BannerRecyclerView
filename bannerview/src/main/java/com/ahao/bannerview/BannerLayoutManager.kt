@@ -87,11 +87,11 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
         var realScroll = dx
         // 向左
         if (dx > 0) {
-            realScroll = scrollToLeft(dx, recycler, realScroll)
+            realScroll = scrollToLeft(dx, recycler)
         }
         // 向右
         if (dx < 0) {
-            realScroll = scrollToRight(dx, recycler, realScroll)
+            realScroll = scrollToRight(dx, recycler)
         }
         doWithItem()
 
@@ -100,8 +100,8 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
 
     open fun doWithItem() {}
 
-    private fun scrollToRight(dx: Int, recycler: RecyclerView.Recycler, realScroll: Int): Int {
-        var realScroll = realScroll
+    private fun scrollToRight(dx: Int, recycler: RecyclerView.Recycler): Int {
+        var realScroll = dx
         while (true) {
             val leftChild = getChildAt(0)
             val left = getDecoratedLeft(leftChild!!)
@@ -116,7 +116,6 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
                 addView(addView, 0)
                 measureChildWithMargins(addView, 0, 0)
                 layoutDecoratedWithMargins(addView, left - getDecoratedMeasuredWidth(addView), getItemTop(addView), left, getItemTop(addView) + getDecoratedMeasuredHeight(addView))
-
             } else {
                 break
             }
@@ -142,8 +141,8 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
         return realScroll
     }
 
-    private fun scrollToLeft(dx: Int, recycler: RecyclerView.Recycler, realScroll: Int): Int {
-        var realScroll = realScroll
+    private fun scrollToLeft(dx: Int, recycler: RecyclerView.Recycler): Int {
+        var realScroll = dx
         while (true) {
             val rightView = getChildAt(childCount - 1)
             val decoratedRight = getDecoratedRight(rightView!!)
@@ -193,8 +192,8 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
         return -1
     }
 
-    override fun smoothScrollToPosition(recyclerView: RecyclerView?, state: RecyclerView.State?, targetPosition: Int) {
-        var targetPosition = targetPosition
+    override fun smoothScrollToPosition(recyclerView: RecyclerView?, state: RecyclerView.State?, position: Int) {
+        var targetPosition = position
         if (!loop && (targetPosition < 0 || targetPosition > itemCount - 1)) {
             return
         }
