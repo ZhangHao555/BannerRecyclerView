@@ -51,8 +51,6 @@ open class BannerView : FrameLayout {
                 }
             }
         }
-
-
     }
 
     private fun init() {

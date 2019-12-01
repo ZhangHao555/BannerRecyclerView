@@ -19,9 +19,7 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
         return RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
     }
 
-    override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
-        recycler!!
-        state!!
+    override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
         layoutChildren(recycler, state)
     }
 
