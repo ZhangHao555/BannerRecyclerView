@@ -127,7 +127,7 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
     }
 
     private int scrollToRight(int dx, RecyclerView.Recycler recycler) {
-        int realScroll = 0;
+        int realScroll = dx;
         while (true) {
             View leftChild = getChildAt(0);
             int left = getDecoratedLeft(leftChild);
@@ -169,7 +169,7 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
     }
 
     private int scrollToLeft(int dx, RecyclerView.Recycler recycler) {
-        int realScroll = 0;
+        int realScroll = dx;
         while (true) {
             // 将需要添加的view添加到RecyclerView中
             View rightView = getChildAt(getChildCount() - 1);
