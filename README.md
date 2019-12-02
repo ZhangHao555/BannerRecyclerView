@@ -24,6 +24,30 @@ class BannerSetting(var loop: Boolean = false, // 是否循坏
 
 使用方式类似于RecyclerView 设置一个layoutManager 和一个Adapter即可使用
 
+```
+//添加布局
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.ahao.bannerview.BannerView
+            android:id="@+id/banner_view"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.ahao.bannerview.BannerIndicator
+            android:id="@+id/banner_indicator"
+            android:layout_width="25dp"
+            android:layout_height="10dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/banner_view"
+            app:layout_constraintEnd_toEndOf="@id/banner_view"
+            app:layout_constraintStart_toStartOf="@id/banner_view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    
+```
 
 ```
   // 设置 LayoutManager， ScaleBannerLayoutManager是在滑动的时候有一个缩放的效果
