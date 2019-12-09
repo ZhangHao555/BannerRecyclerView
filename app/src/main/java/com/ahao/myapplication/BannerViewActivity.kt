@@ -27,21 +27,27 @@ class BannerViewActivity : AppCompatActivity() {
 
     private fun initData1() {
         banner_view.layoutManager = ScaleBannerLayoutManager()
+        banner_view.indicator = banner_indicator
         banner_indicator.adapter = object : BannerIndicator.Adapter() {
+            override fun getItemCount() = data.size
 
-            override fun getItemCount(): Int = data.size
-
-            override fun getUnselectedView(context: Context) = CircleView(context, null).apply {
-                radius = dp2px(context, 2.5f)
-                color = Color.parseColor("#E6E6E6")
+            override fun addUnselectedView(parent: BannerIndicator){
+                val circleView = CircleView(parent.context).also {
+                    it.radius = dp2px(parent.context, 2.5f)
+                    it.color = Color.parseColor("#E6E6E6")
+                }
+                parent.addView(circleView, dp2px(parent.context, 6f), dp2px(parent.context, 6f))
             }
 
-            override fun getSelectedView(context: Context) = CircleView(context, null).apply {
-                radius = dp2px(context, 2.5f)
-                color = Color.parseColor("#FF00CEAA")
+            override fun addSelectedView(parent: BannerIndicator){
+                val circleView = CircleView(parent.context).also {
+                    it.radius = dp2px(parent.context, 2.5f)
+                    it.color = Color.parseColor("#FF00CEAA")
+                }
+                parent.addView(circleView, dp2px(parent.context, 6f), dp2px(parent.context, 6f))
             }
         }
-        banner_view.indicator = banner_indicator
+
         banner_view.setUp(BannerSetting().apply {
             slideTimeGap = 3000
             autoSlideSpeed = 1000

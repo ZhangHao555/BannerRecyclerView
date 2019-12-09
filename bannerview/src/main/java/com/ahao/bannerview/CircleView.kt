@@ -28,8 +28,4 @@ class CircleView : View {
         canvas.drawCircle(measuredWidth / 2.0f, measuredHeight / 2.0f, measuredWidth / 2.0f, paint)
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        setMeasuredDimension(MeasureSpec.makeMeasureSpec(radius * 2, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(radius * 2, MeasureSpec.EXACTLY))
-    }
-
 }
