@@ -28,12 +28,10 @@ open class BannerView : FrameLayout {
     private var timerHandler: TimerHandler? = null
 
     class TimerHandler(view: BannerView) : Handler() {
-        private val bannerView : WeakReference<BannerView> =  WeakReference(view)
+        private val bannerView: WeakReference<BannerView> = WeakReference(view)
 
         companion object {
             const val START_SCROLL = 1
-            const val STOP_SCROLL = 2
-            private const val CONTINUE_SCROLL = 3
         }
 
         override fun handleMessage(msg: Message?) {
@@ -44,10 +42,8 @@ open class BannerView : FrameLayout {
                     START_SCROLL -> {
                         var curPos = view.layoutManager.getCurrentPosition()
                         view.banner_recycler_view.smoothScrollToPosition(++curPos)
-                        sendEmptyMessageDelayed(CONTINUE_SCROLL, view.layoutManager.smoothScrollTime.toLong())
+                        sendEmptyMessageDelayed(START_SCROLL, view.layoutManager.smoothScrollTime.toLong() + view.setting.slideTimeGap)
                     }
-                    CONTINUE_SCROLL -> view.startAutoSlide()
-                    STOP_SCROLL -> removeCallbacksAndMessages(null)
                 }
             }
         }
@@ -59,7 +55,7 @@ open class BannerView : FrameLayout {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                indicator?.onScrolled(dx,dx.toFloat() / layoutManager.itemWidth)
+                indicator?.onScrolled(dx, dx.toFloat() / layoutManager.itemWidth)
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -113,7 +109,7 @@ open class BannerView : FrameLayout {
     }
 
     fun stopAutoSlide() {
-        timerHandler?.sendEmptyMessage(TimerHandler.STOP_SCROLL)
+        timerHandler?.removeCallbacksAndMessages(null)
     }
 
     fun setUp(setting: BannerSetting, adapter: RecyclerView.Adapter<*>) {
