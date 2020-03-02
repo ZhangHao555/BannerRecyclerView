@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BannerRecyclerView.iml" filepath="$PROJECT_DIR$/BannerRecyclerView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/BannerRecyclerView-app.iml" filepath="$PROJECT_DIR$/app/BannerRecyclerView-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bannerview/bannerview.iml" filepath="$PROJECT_DIR$/bannerview/bannerview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gitCode-BannerRecyclerView.iml" filepath="$PROJECT_DIR$/gitCode-BannerRecyclerView.iml" />
     </modules>
   </component>
 </project>

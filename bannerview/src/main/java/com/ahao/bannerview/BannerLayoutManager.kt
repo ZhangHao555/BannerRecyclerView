@@ -11,7 +11,6 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
     var mOrientationHelper: OrientationHelper = OrientationHelper.createHorizontalHelper(this)
     var itemWidth: Int = 0
 
-    private var hasLayout = false
     var smoothScrollTime = 500
     var loop: Boolean = true
 
@@ -26,9 +25,6 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
     private fun layoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
         if (itemCount == 0 || state.isPreLayout) {
             removeAndRecycleAllViews(recycler)
-            return
-        }
-        if (hasLayout) {
             return
         }
         detachAndScrapAttachedViews(recycler)
@@ -52,7 +48,6 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
         }
         doWithItem()
 
-        hasLayout = true
     }
 
     private fun layoutItem(viewForPosition: View, offsetX: Int): Int {
@@ -192,7 +187,8 @@ open class BannerLayoutManager : RecyclerView.LayoutManager(), RecyclerView.Smoo
 
     override fun smoothScrollToPosition(recyclerView: RecyclerView?, state: RecyclerView.State?, position: Int) {
         var targetPosition = position
-        if (!loop && (targetPosition < 0 || targetPosition > itemCount - 1)) {
+
+        if (itemCount <= 0 || !loop && (targetPosition < 0 || targetPosition > itemCount - 1)) {
             return
         }
         if (loop || itemCount > 0) {
