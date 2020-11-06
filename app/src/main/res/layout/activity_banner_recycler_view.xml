@@ -5,35 +5,19 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="50dp"
-        android:id="@+id/recycler_view1"
+    <com.ahao.myapplication.banner.BannerView
+        android:id="@+id/banner_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="180dp" />
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <Button
-        android:id="@+id/scrollTo1"
+    <TextView
+        android:id="@+id/scroll_to_position"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:text="scrollTo"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="50dp"
-        android:id="@+id/recycler_view2"
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <Button
-        android:id="@+id/scrollTo2"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="scrollTo"
-        />
+        android:background="#eee"
+        android:gravity="center"
+        android:text="scroll"
+        android:textColor="#000"
+        android:textSize="16sp" />
 
 </LinearLayout>

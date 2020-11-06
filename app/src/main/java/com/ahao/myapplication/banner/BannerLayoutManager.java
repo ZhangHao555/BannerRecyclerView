@@ -1,25 +1,26 @@
 package com.ahao.myapplication.banner;
 
 import android.graphics.PointF;
+
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import android.view.View;
 
 public class BannerLayoutManager extends RecyclerView.LayoutManager implements RecyclerView.SmoothScroller.ScrollVectorProvider {
 
-    private final OrientationHelper mOrientationHelper;
+    protected final OrientationHelper mOrientationHelper;
 
     private float heightScale = 0.9f;
     private float widthScale = 0.9f;
 
-    private boolean infinite = true;  //默认无限循环
+    private boolean loop = true;  //默认无限循环
 
-    private int itemWidth;
+    protected int itemWidth;
 
     private int smoothScrollTime = 500;
+
+    private boolean hasLayout;
 
     public BannerLayoutManager() {
         mOrientationHelper = OrientationHelper.createHorizontalHelper(this);
@@ -40,6 +41,11 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
             removeAndRecycleAllViews(recycler);
             return;
         }
+
+        if (hasLayout) {
+            return;
+        }
+
         detachAndScrapAttachedViews(recycler);
 
         View scrap = recycler.getViewForPosition(0);
@@ -59,20 +65,21 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
 
         View lastChild = getChildAt(getChildCount() - 1);
         // 如果是循环布局，并且最后一个view已超出父布局，则添加最左边的view
-        if ( infinite && lastChild != null && getDecoratedRight(lastChild) > mOrientationHelper.getTotalSpace()) {
+        if (loop && lastChild != null && getDecoratedRight(lastChild) > mOrientationHelper.getTotalSpace()) {
             layoutLeftItem(recycler);
         }
-        scaleItem();
+        doWithItem();
+        hasLayout = true;
     }
 
     private void layoutLeftItem(RecyclerView.Recycler recycler) {
-        View firstChild = getChildAt(0);
-        if (firstChild != null) {
+        View childCenter = getChildAt(getChildCount() - 2);
+        if (childCenter != null) {
             View viewForPosition = recycler.getViewForPosition(getItemCount() - 1);
             addView(viewForPosition, 0);
             measureChildWithMargins(viewForPosition, 0, 0);
             int top = getItemTop(viewForPosition);
-            int left = getDecoratedLeft(firstChild) - itemWidth;
+            int left = getDecoratedLeft(childCenter) - itemWidth;
             int right = left + itemWidth;
             layoutDecoratedWithMargins(viewForPosition, left, top, right, top + getDecoratedMeasuredHeight(viewForPosition));
         }
@@ -90,7 +97,7 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
 
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        return offsetDx(dx, recycler);
+        return recycler == null ? 0 : offsetDx(dx, recycler);
     }
 
     private int offsetDx(int dx, RecyclerView.Recycler recycler) {
@@ -103,27 +110,12 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
         if (dx < 0) {
             realScroll = scrollToRight(dx, recycler);
         }
-        scaleItem();
+        doWithItem();
 
         return realScroll;
     }
 
-    private void scaleItem() {
-        if (heightScale >= 1 || widthScale >= 1) {
-            return;
-        }
-
-        for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            float itemMiddle = (getDecoratedRight(child) + getDecoratedLeft(child)) / 2.0f;
-            float screenMiddle = mOrientationHelper.getTotalSpace() / 2.0f;
-            float interval = Math.abs(screenMiddle - itemMiddle) * 1.0f;
-
-            float ratio = 1 - (1 - heightScale) * (interval / itemWidth);
-            float ratioWidth = 1 - (1 - widthScale) * (interval / itemWidth);
-            child.setScaleX(ratioWidth);
-            child.setScaleY(ratio);
-        }
+    protected void doWithItem() {
     }
 
     private int scrollToRight(int dx, RecyclerView.Recycler recycler) {
@@ -133,11 +125,11 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
             int left = getDecoratedLeft(leftChild);
             if (left + Math.abs(dx) > getPaddingLeft()) {
                 int position = getPosition(leftChild);
-                if (!infinite && position == 0) {
+                if (!loop && position == 0) {
                     break;
                 }
 
-                int addPosition = infinite ? (position - 1 + getItemCount()) % getItemCount() : position - 1;
+                int addPosition = loop ? (position - 1 + getItemCount()) % getItemCount() : position - 1;
                 View addView = recycler.getViewForPosition(addPosition);
                 addView(addView, 0);
                 measureChildWithMargins(addView, 0, 0);
@@ -149,6 +141,7 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
         }
 
         View firstChild = getChildAt(0);
+
         int right = getDecoratedRight(firstChild);
         if (getPosition(firstChild) == 0) {
             if (right + Math.abs(dx) > mOrientationHelper.getTotalSpace()) {
@@ -176,11 +169,11 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
             int decoratedRight = getDecoratedRight(rightView);
             if (decoratedRight - dx < mOrientationHelper.getTotalSpace()) {
                 int position = getPosition(rightView);
-                if (!infinite && position == getItemCount() - 1) {
+                if (!loop && position == getItemCount() - 1) {
                     break;
                 }
 
-                int addPosition = infinite ? (position + 1) % getItemCount() : position + 1;
+                int addPosition = loop ? (position + 1) % getItemCount() : position + 1;
                 View lastViewAdd = recycler.getViewForPosition(addPosition);
                 addView(lastViewAdd);
                 measureChildWithMargins(lastViewAdd, 0, 0);
@@ -225,22 +218,22 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
 
     @Override
     public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int targetPosition) {
-        if (!infinite && (targetPosition < 0 || targetPosition > getItemCount() - 1)) {
+        if (!loop && (targetPosition < 0 || targetPosition > getItemCount() - 1)) {
             return;
         }
-        if (infinite || getItemCount() > 0) {
+        if (loop || getItemCount() > 0) {
             targetPosition = (targetPosition % getItemCount() + getItemCount()) % getItemCount();
         }
 
         int offset;
         recyclerView.requestFocus();
         int currentPosition = getCurrentPosition();
-        if (currentPosition == getItemCount() - 1 && targetPosition == 0 && infinite) {
+        if (currentPosition == getItemCount() - 1 && targetPosition == 0 && loop) {
             offset = itemWidth;
         } else {
             offset = (targetPosition - currentPosition) * itemWidth;
         }
-        recyclerView.smoothScrollBy(offset,0,null,smoothScrollTime);
+        recyclerView.smoothScrollBy(offset, 0, null, smoothScrollTime);
     }
 
     private int getTotalHeight() {
@@ -251,12 +244,12 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
         return (getTotalHeight() - getDecoratedMeasuredHeight(item)) / 2 + getPaddingTop();
     }
 
-    public boolean isInfinite() {
-        return infinite;
+    public boolean isLoop() {
+        return loop;
     }
 
-    public void setInfinite(boolean infinite) {
-        this.infinite = infinite;
+    public void setLoop(boolean loop) {
+        this.loop = loop;
     }
 
 

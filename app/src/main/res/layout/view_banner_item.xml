@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/text"
-    android:layout_width="300dp"
-    android:layout_height="130dp"
-    android:gravity="center"
-    android:text="dsda"
-    android:textColor="#000"
-    android:textSize="30sp">
-
-</TextView>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/banner_image"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scaleType="fitXY"/>

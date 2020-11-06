@@ -1,18 +1,20 @@
 package com.ahao.myapplication.banner;
 
 import android.content.Context;
-import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
 import com.ahao.myapplication.R;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 import java.util.Random;
@@ -25,10 +27,11 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
 
     private Random random = new Random();
 
-    private float itemWidth = 1.0f;
+    private float itemWidth = 0.88f;
     private float ratio = 0.5f;  // 宽高比
 
-    private DisplayMetrics displayMetrics ;
+    private DisplayMetrics displayMetrics;
+
     public BannerAdapter(List<String> data, Context context) {
         super();
         this.data = data;
@@ -39,26 +42,19 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
     @NonNull
     @Override
     public BannerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.view_banner_item, parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.view_banner_item, parent, false);
         final BannerViewHolder holder = new BannerViewHolder(view);
-        holder.textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context,"onclick :" + holder.getAdapterPosition(),Toast.LENGTH_SHORT).show();
-            }
-        });
+        holder.bannerImage.setOnClickListener(v -> Toast.makeText(context, "onclick :" + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show());
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final BannerViewHolder holder, final int position) {
-        holder.textView.setText(data.get(position));
-        holder.textView.setBackgroundColor(Color.rgb(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
-        ViewGroup.LayoutParams layoutParams = holder.textView.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = holder.bannerImage.getLayoutParams();
         layoutParams.width = (int) (displayMetrics.widthPixels * itemWidth);
-        layoutParams.height = (int) (layoutParams.width * ratio);
-
-
+        Glide.with(context)
+                .load(data.get(position))
+                .into(holder.bannerImage);
     }
 
     @Override
@@ -66,11 +62,12 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.BannerView
         return data.size();
     }
 
-    public class BannerViewHolder extends RecyclerView.ViewHolder{
-        TextView textView;
+    public class BannerViewHolder extends RecyclerView.ViewHolder {
+        ImageView bannerImage;
+
         public BannerViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.text);
+            bannerImage = itemView.findViewById(R.id.banner_image);
         }
 
     }

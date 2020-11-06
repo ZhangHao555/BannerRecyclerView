@@ -8,7 +8,7 @@ import android.view.View;
 
 public class BannerPageSnapHelper extends PagerSnapHelper {
 
-    private boolean infinite = false;
+    private boolean loop = false;
     private OrientationHelper horizontalHelper;
 
     @Override
@@ -38,7 +38,7 @@ public class BannerPageSnapHelper extends PagerSnapHelper {
 
         if (forwardDirection) {
             if (centerPosition == layoutManager.getItemCount() - 1) {
-                return infinite ? 0 : layoutManager.getItemCount() - 1;
+                return loop ? 0 : layoutManager.getItemCount() - 1;
             } else {
                 return centerPosition + 1;
             }
@@ -79,11 +79,11 @@ public class BannerPageSnapHelper extends PagerSnapHelper {
         return horizontalHelper;
     }
 
-    public boolean isInfinite() {
-        return infinite;
+    public boolean isLoop() {
+        return loop;
     }
 
-    public void setInfinite(boolean infinite) {
-        this.infinite = infinite;
+    public void setLoop(boolean loop) {
+        this.loop = loop;
     }
 }
